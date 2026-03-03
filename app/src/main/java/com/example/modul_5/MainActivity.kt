@@ -58,6 +58,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.delay
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 
 
 class MainActivity : ComponentActivity() {
@@ -217,6 +220,7 @@ fun GalleryScreen(
     }
 }
 
+
 @Composable
 fun PhotoItem(
     photo: PhotoEntry,
@@ -225,6 +229,7 @@ fun PhotoItem(
 ) {
     val context = LocalContext.current
     var bitmap by remember(photo.filePath) { mutableStateOf<android.graphics.Bitmap?>(null) }
+    var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(photo.filePath) {
         val repo = PhotoRepository(context)
@@ -259,31 +264,51 @@ fun PhotoItem(
                 }
             }
 
-            Row(
+            Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(4.dp)
             ) {
                 IconButton(
-                    onClick = onExport,
-                    modifier = Modifier.size(24.dp)
+                    onClick = { expanded = true }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = "Экспорт в галерею",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(16.dp)
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = "Действия",
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                IconButton(
-                    onClick = onDelete,
-                    modifier = Modifier.size(24.dp)
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Удалить",
-                        tint = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.size(16.dp)
+                    DropdownMenuItem(
+                        text = { Text("Экспорт в галерею") },
+                        onClick = {
+                            expanded = false
+                            onExport()
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = null
+                            )
+                        }
+                    )
+
+                    DropdownMenuItem(
+                        text = { Text("Удалить") },
+                        onClick = {
+                            expanded = false
+                            onDelete()
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = null
+                            )
+                        }
                     )
                 }
             }
