@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Купить продукты",
+    "description": "Молоко, хлеб, яйца, сыр",
+    "isCompleted": false,
+    "createdAt": 1709452800000
+  },
+  {
+    "title": "Сделать домашнее задание",
+    "description": "Модуль 5 - Room и DataStore",
+    "isCompleted": false,
+    "createdAt": 1709539200000
+  },
+  {
+    "title": "Позвонить родителям",
+    "description": "Узнать как дела",
+    "isCompleted": true,
+    "createdAt": 1709625600000,
+    "completedAt": 1709712000000
+  },
+  {
+    "title": "Записаться к врачу",
+    "description": "Стоматолог на следующей неделе",
+    "isCompleted": false,
+    "createdAt": 1709712000000
+  },
+  {
+    "title": "Прочитать книгу",
+    "description": "Глава 5-7",
+    "isCompleted": false,
+    "createdAt": 1709798400000
+  }
+]
