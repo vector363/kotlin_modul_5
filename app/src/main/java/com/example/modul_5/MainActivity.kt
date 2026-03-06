@@ -327,7 +327,6 @@ fun EntryDetailScreen(
     fileName: String,
     onNavigateBack: () -> Unit
 ) {
-    // Находим запись по fileName
     val entries by viewModel.entries.collectAsStateWithLifecycle()
     val entry = entries.find { it.fileName == fileName }
 
@@ -335,7 +334,6 @@ fun EntryDetailScreen(
     var isEditing by remember { mutableStateOf(false) }
 
     if (entry == null) {
-        // Если запись не найдена, возвращаемся
         LaunchedEffect(Unit) {
             onNavigateBack()
         }
@@ -358,7 +356,6 @@ fun EntryDetailScreen(
                 },
                 actions = {
                     if (isEditing) {
-                        // Кнопка сохранения при редактировании
                         TextButton(
                             onClick = {
                                 if (text.isNotBlank() && text != entry.content) {
@@ -377,7 +374,6 @@ fun EntryDetailScreen(
                             Text("Сохранить")
                         }
                     } else {
-                        // Кнопка редактирования в режиме просмотра
                         TextButton(
                             onClick = { isEditing = true }
                         ) {
@@ -394,7 +390,6 @@ fun EntryDetailScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // Дата создания
             Text(
                 text = "Создано: ${formatDate(entry.timestamp)}",
                 fontSize = 14.sp,
@@ -403,7 +398,6 @@ fun EntryDetailScreen(
             )
 
             if (isEditing) {
-                // Режим редактирования
                 OutlinedTextField(
                     value = text,
                     onValueChange = { text = it },
@@ -417,7 +411,6 @@ fun EntryDetailScreen(
                     shape = MaterialTheme.shapes.medium
                 )
             } else {
-                // Режим просмотра
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()

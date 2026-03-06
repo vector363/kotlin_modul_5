@@ -5,7 +5,6 @@ import java.io.File
 import java.io.IOException
 
 class FileRepository(private val context: Context) {
-
     private val diaryDir: File get() = context.filesDir
 
     fun saveEntry(fileName: String, content: String): Boolean {
@@ -18,24 +17,6 @@ class FileRepository(private val context: Context) {
             false
         }
     }
-
-    /**
-     * Прочитать запись из файла
-     */
-    fun readEntry(fileName: String): String? {
-        return try {
-            val file = File(diaryDir, fileName)
-            if (file.exists()) {
-                file.readText()
-            } else {
-                null
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
-
 
     fun deleteEntry(fileName: String): Boolean {
         return try {
@@ -51,9 +32,7 @@ class FileRepository(private val context: Context) {
         }
     }
 
-    /**
-     * Получить список всех файлов записей
-     */
+
     fun getAllEntryFiles(): List<File> {
         return diaryDir.listFiles()
             ?.filter { it.isFile && it.name.endsWith(".txt") }

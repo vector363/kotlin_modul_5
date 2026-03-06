@@ -36,7 +36,6 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val fileName = "${System.currentTimeMillis()}.txt"
 
-            // Сохраняем в файл
             val success = fileRepository.saveEntry(fileName, content)
 
             if (success) {
@@ -46,37 +45,30 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                     timestamp = System.currentTimeMillis()
                 )
 
-                // Добавляем в список
+
                 _entries.value = listOf(newEntry) + _entries.value
-                println("✅ Запись сохранена: $fileName")
             } else {
-                println("❌ Ошибка при сохранении: $fileName")
             }
         }
     }
 
     fun deleteEntry(fileName: String) {
         viewModelScope.launch {
-            // Удаляем файл
             val success = fileRepository.deleteEntry(fileName)
 
             if (success) {
-                // Удаляем из списка
                 _entries.value = _entries.value.filter { it.fileName != fileName }
-                println("✅ Запись удалена: $fileName")
             } else {
-                println("❌ Ошибка при удалении: $fileName")
+                println("Ошибка при удалении: $fileName")
             }
         }
     }
 
     fun updateEntry(fileName: String, newContent: String) {
         viewModelScope.launch {
-            // Обновляем файл
             val success = fileRepository.saveEntry(fileName, newContent)
 
             if (success) {
-                // Обновляем в списке
                 _entries.value = _entries.value.map { entry ->
                     if (entry.fileName == fileName) {
                         entry.copy(content = newContent)
@@ -84,9 +76,8 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                         entry
                     }
                 }
-                println("✅ Запись обновлена: $fileName")
             } else {
-                println("❌ Ошибка при обновлении: $fileName")
+                println("Ошибка при обновлении: $fileName")
             }
         }
     }
