@@ -101,8 +101,7 @@ fun GalleryScreen(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            // Файл уже создан в takePicture, просто добавляем его в список
-            val file = viewModel.getLastPhotoFile() // Нужен новый метод в ViewModel
+            val file = viewModel.getLastPhotoFile()
             viewModel.addPhoto(file.absolutePath, file.name)
         }
     }

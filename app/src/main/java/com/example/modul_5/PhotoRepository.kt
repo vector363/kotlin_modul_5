@@ -18,28 +18,21 @@ import java.util.*
 
 class PhotoRepository(private val context: Context) {
 
-    private val photoDir: File
-        get() = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            ?: context.filesDir
+    private val photoDir: File get() = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: context.filesDir
 
     private var lastCreatedFile: File? = null
 
-    /**
-     * Создать файл для фото
-     */
+
     fun createImageFile(): File {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val imageFileName = "IMG_${timeStamp}.jpg"
         val file = File(photoDir, imageFileName)
-        lastCreatedFile = file  // ЭТО НУЖНО ДОБАВИТЬ!
+        lastCreatedFile = file
         return file
     }
 
     fun getLastPhotoFile(): File? = lastCreatedFile
 
-    /**
-     * Получить URI для FileProvider
-     */
     fun getUriForFile(file: File): Uri {
         return FileProvider.getUriForFile(
             context,
@@ -48,9 +41,6 @@ class PhotoRepository(private val context: Context) {
         )
     }
 
-    /**
-     * Загрузить все фото из папки
-     */
     fun loadAllPhotos(): List<PhotoEntry> {
         return photoDir.listFiles()
             ?.filter { it.isFile && it.name.endsWith(".jpg") }
@@ -65,24 +55,6 @@ class PhotoRepository(private val context: Context) {
             ?: emptyList()
     }
 
-    /**
-     * Сохранить фото из битмапа (например, после сжатия)
-     */
-    fun saveBitmapToFile(bitmap: Bitmap, file: File): Boolean {
-        return try {
-            FileOutputStream(file).use { out ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-            }
-            true
-        } catch (e: IOException) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
-     * Экспортировать фото в общую галерею (MediaStore)
-     */
     fun exportToGallery(file: File): Boolean {
         return try {
             val contentValues = ContentValues().apply {
@@ -128,9 +100,6 @@ class PhotoRepository(private val context: Context) {
         }
     }
 
-    /**
-     * Получить Bitmap для отображения (сжатый)
-     */
     fun getBitmapThumbnail(filePath: String, width: Int = 200, height: Int = 200): Bitmap? {
         return try {
             val options = BitmapFactory.Options().apply {
@@ -138,7 +107,6 @@ class PhotoRepository(private val context: Context) {
             }
             BitmapFactory.decodeFile(filePath, options)
 
-            // Вычисляем сжатие
             val scale = calculateInSampleSize(options, width, height)
 
             val finalOptions = BitmapFactory.Options().apply {

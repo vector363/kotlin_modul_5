@@ -52,8 +52,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun getLastPhotoFile(): File = photoRepository.getLastPhotoFile()
-        ?: throw IllegalStateException("No photo file created")
+    fun getLastPhotoFile(): File = photoRepository.getLastPhotoFile() ?: throw IllegalStateException("No photo file created")
 
     fun exportPhotoToGallery(fileName: String): Boolean {
         val photo = _photos.value.find { it.fileName == fileName } ?: return false
