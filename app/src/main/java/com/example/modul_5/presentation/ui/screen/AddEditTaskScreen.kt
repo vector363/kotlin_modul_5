@@ -18,7 +18,7 @@ import com.example.modul_5.domain.model.Task
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditTaskScreen(
-    task: Task? = null,  // если null - создание, если не null - редактирование
+    task: Task? = null,
     onSave: (String, String) -> Unit,
     onNavigateBack: () -> Unit
 ) {
@@ -72,7 +72,6 @@ fun AddEditTaskScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // Поле для заголовка
             OutlinedTextField(
                 value = title,
                 onValueChange = {
@@ -94,7 +93,6 @@ fun AddEditTaskScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Поле для описания
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
@@ -112,7 +110,6 @@ fun AddEditTaskScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Счетчик символов для описания
             Text(
                 text = "${description.length}/500",
                 fontSize = 12.sp,
@@ -161,7 +158,6 @@ fun AddEditTaskScreen(
     }
 }
 
-// Вспомогательная функция для форматирования даты
 fun formatDate(timestamp: Long): String {
     val date = java.util.Date(timestamp)
     val format = java.text.SimpleDateFormat("dd.MM.yyyy HH:mm", java.util.Locale.getDefault())

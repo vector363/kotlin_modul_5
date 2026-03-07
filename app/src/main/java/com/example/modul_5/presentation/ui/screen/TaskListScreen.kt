@@ -129,7 +129,6 @@ fun TaskListScreen(
                 }
             }
 
-            // Snackbar для ошибок
             uiState.errorMessage?.let { error ->
                 Snackbar(
                     modifier = Modifier

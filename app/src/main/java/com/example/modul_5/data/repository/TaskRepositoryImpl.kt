@@ -23,7 +23,6 @@ class TaskRepositoryImpl(
     }
 
     override suspend fun getTaskById(taskId: Int): Task? {
-        // Для простоты можно добавить метод в DAO позже
         return null
     }
 
@@ -48,7 +47,6 @@ class TaskRepositoryImpl(
             val itemType = object : TypeToken<List<TaskEntity>>() {}.type
             val tasks: List<TaskEntity> = Gson().fromJson(jsonString, itemType)
 
-            // Проверяем, есть ли уже задачи в БД
             if (database.taskDao().getTaskCount() == 0) {
                 database.taskDao().insertAllTasks(tasks)
             }
@@ -61,7 +59,6 @@ class TaskRepositoryImpl(
         return database.taskDao().getTaskCount() == 0
     }
 
-    // Extension functions для преобразования между Entity и Domain
     private fun Task.toEntity(): TaskEntity {
         return TaskEntity(
             id = this.id,

@@ -18,13 +18,12 @@ class PreferencesManager(private val context: Context) {
         private val COMPLETED_TASK_COLOR = booleanPreferencesKey("completed_task_color")
     }
 
-    // Поток для отслеживания выбранного цвета
-    val completedTaskColor: Flow<Boolean> = context.dataStore.data
+
+    val completedTaskColor: Flow<Boolean> = context.dataStore.data //для отслеживания цвета
         .map { preferences ->
-            preferences[COMPLETED_TASK_COLOR] ?: false // false = серый, true = зеленый
+            preferences[COMPLETED_TASK_COLOR] ?: false
         }
 
-    // Сохранение настройки цвета
     suspend fun setCompletedTaskColor(isGreen: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[COMPLETED_TASK_COLOR] = isGreen

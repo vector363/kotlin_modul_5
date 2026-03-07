@@ -16,23 +16,17 @@ private val Context.dataStore by preferencesDataStore(
 )
 
 class TodoApplication : Application() {
-
     lateinit var taskRepository: TaskRepository
     lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate() {
         super.onCreate()
 
-        // Инициализация базы данных
         val database = TaskDatabase.getDatabase(this)
 
-        // Инициализация репозитория
         taskRepository = TaskRepositoryImpl(this, database)
-
-        // Инициализация PreferencesManager
         preferencesManager = PreferencesManager(this)
 
-        // Импорт задач из JSON при первом запуске
         CoroutineScope(Dispatchers.IO).launch {
             if (taskRepository.isDatabaseEmpty()) {
                 val jsonString = assets.open("tasks.json")
